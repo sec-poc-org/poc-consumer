@@ -1,0 +1,17 @@
+name: govulncheck
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+# Reusable workflow uploads SARIF to Code Scanning; org default permissions
+# are read-only so grant the upper bound at the caller.
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  scan:
+    uses: sec-poc-org/.github/.github/workflows/reusable-govulncheck.yml@main
