@@ -14,6 +14,6 @@ RUN go mod download
 COPY main.go ./
 RUN CGO_ENABLED=0 go build -o /out/poc-app .
 
-FROM alpine:3.13
+FROM alpine:3.20
 COPY --from=build /out/poc-app /usr/local/bin/poc-app
 ENTRYPOINT ["/usr/local/bin/poc-app"]
