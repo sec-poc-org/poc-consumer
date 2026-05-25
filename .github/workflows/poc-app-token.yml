@@ -13,7 +13,7 @@ jobs:
     steps:
       - name: POSITIVE — Mint token scoped to poc-target-installed
         id: app-token
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.POC_APP_ID }}
           private-key: ${{ secrets.POC_PRIVATE_KEY }}
@@ -29,7 +29,7 @@ jobs:
       - name: NEGATIVE — Try minting for poc-target-not-installed (not installed)
         id: bad-scope
         continue-on-error: true
-        uses: actions/create-github-app-token@v1
+        uses: actions/create-github-app-token@v3
         with:
           app-id: ${{ secrets.POC_APP_ID }}
           private-key: ${{ secrets.POC_PRIVATE_KEY }}
