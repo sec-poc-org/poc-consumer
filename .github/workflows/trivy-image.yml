@@ -1,0 +1,21 @@
+name: Trivy Image Scan
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+# Reusable workflow uploads SARIF to Code Scanning; grant the upper bound at the caller
+# because org default workflow permissions are read-only.
+permissions:
+  contents: read
+  security-events: write
+
+jobs:
+  scan:
+    uses: sec-poc-org/.github/.github/workflows/reusable-trivy-image-scan.yml@main
+    with:
+      # Set true once we've reviewed the baseline. Warn-only for first runs.
+      fail-on-findings: true
