@@ -1,0 +1,2 @@
+test: intentional verified-PAT leak for TruffleHog PoC; will be revoked.
+token: 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
