@@ -1,0 +1,7 @@
+{
+  "name": "poc-consumer",
+  "version": "0.0.1",
+  "private": true,
+  "description": "PoC repo for Phase 1/2/3 security hardening tests",
+  "dependencies": {}
+}

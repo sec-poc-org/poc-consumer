@@ -1,0 +1,9 @@
+name: Dependency Review
+
+on:
+  pull_request:
+    branches: [main]
+
+jobs:
+  review:
+    uses: sec-poc-org/.github/.github/workflows/reusable-dependency-review.yml@main
