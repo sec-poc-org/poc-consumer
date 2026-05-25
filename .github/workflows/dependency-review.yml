@@ -4,6 +4,14 @@ on:
   pull_request:
     branches: [main]
 
+# The reusable workflow requests `pull-requests: write` to post the summary comment.
+# Org default workflow permissions are read-only, so the caller must explicitly grant the
+# upper bound here — otherwise the run fails at startup with:
+#   "is requesting 'pull-requests: write', but is only allowed 'pull-requests: none'"
+permissions:
+  contents: read
+  pull-requests: write
+
 jobs:
   review:
     uses: sec-poc-org/.github/.github/workflows/reusable-dependency-review.yml@main
