@@ -7,13 +7,13 @@
 # so Trivy has real HIGH+CRITICAL OS-level CVEs to flag. In production, the
 # final stage would use a current, supported Alpine release.
 
-FROM golang:1.21-alpine3.18 AS build
+FROM golang:1.26-alpine3.22 AS build
 WORKDIR /src
 COPY go.mod go.sum ./
 RUN go mod download
 COPY main.go ./
 RUN CGO_ENABLED=0 go build -o /out/poc-app .
 
-FROM alpine:3.13
+FROM alpine:3.20
 COPY --from=build /out/poc-app /usr/local/bin/poc-app
 ENTRYPOINT ["/usr/local/bin/poc-app"]

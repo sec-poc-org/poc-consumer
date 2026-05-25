@@ -1,5 +1,3 @@
 module github.com/sec-poc-org/poc-consumer
 
-go 1.21
-
-require github.com/dgrijalva/jwt-go v3.2.0+incompatible
+go 1.26
