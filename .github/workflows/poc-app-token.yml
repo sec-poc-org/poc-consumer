@@ -1,0 +1,46 @@
+name: PoC — App token mint + access
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+
+jobs:
+  test-token:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: POSITIVE — Mint token scoped to poc-target-installed
+        id: app-token
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.POC_APP_ID }}
+          private-key: ${{ secrets.POC_PRIVATE_KEY }}
+          owner: sec-poc-org
+          repositories: poc-target-installed
+
+      - name: POSITIVE — Clone poc-target-installed with the token
+        run: |
+          git clone "https://x-access-token:${{ steps.app-token.outputs.token }}@github.com/sec-poc-org/poc-target-installed.git" /tmp/cloned-installed
+          echo "=== Marker file ==="
+          cat /tmp/cloned-installed/MARKER.txt
+
+      - name: NEGATIVE — Try minting for poc-target-not-installed (not installed)
+        id: bad-scope
+        continue-on-error: true
+        uses: actions/create-github-app-token@v1
+        with:
+          app-id: ${{ secrets.POC_APP_ID }}
+          private-key: ${{ secrets.POC_PRIVATE_KEY }}
+          owner: sec-poc-org
+          repositories: poc-target-not-installed
+
+      - name: Confirm scope safety property
+        run: |
+          if [ "${{ steps.bad-scope.outcome }}" = "failure" ]; then
+            echo "✓ App cannot mint for a repo it is not installed on"
+          else
+            echo "✗ UNEXPECTED: App minted for an uninstalled repo"
+            exit 1
+          fi
